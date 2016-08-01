@@ -1,8 +1,10 @@
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 module.exports = {
-    entry: './web/static/js/app.js',
+    entry: ['./web/static/css/app.scss','./web/static/js/app.js'],
     output: {
-        path: './priv/static/js',
-        filename: 'app.js'
+        path: './priv/static/',
+        filename: 'js/app.js'
     },
     module: {
         loaders: [
@@ -13,9 +15,27 @@ module.exports = {
                 query: {
                     presets: ['es2015']
                 }
+            }, {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract('style', 'css')
+            }, {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('style',
+                    'css!sass?includePaths[]=' + __dirname + '/node_modules')
+            }, {
+                test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'
+            }, {
+                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'
+            }, {
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'
+            }, {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'
             }
         ]
     },
+    plugins: [
+        new ExtractTextPlugin('css/app.css')
+    ],
     resolve: {
         modulesDirectories: [
             'node_modules',
