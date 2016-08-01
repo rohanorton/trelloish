@@ -1,7 +1,12 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const elmSource = __dirname + '/web/elm';
 
 module.exports = {
-    entry: ['./web/static/css/app.scss','./web/static/js/app.js'],
+    entry: [
+        './web/static/css/app.scss',
+        './web/static/js/app.js',
+        './web/elm/Main.elm',
+    ],
     output: {
         path: './priv/static/',
         filename: 'js/app.js'
@@ -9,6 +14,10 @@ module.exports = {
     module: {
         loaders: [
             {
+                test: /\.elm$/,
+                exclude: [/elm-stuff/, /node_modules/],
+                loader: 'elm-webpack?cwd=' + elmSource
+            }, {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel',
@@ -31,7 +40,8 @@ module.exports = {
             }, {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'
             }
-        ]
+        ],
+        noParse: [/\.elm$/]
     },
     plugins: [
         new ExtractTextPlugin('css/app.css')
@@ -40,6 +50,7 @@ module.exports = {
         modulesDirectories: [
             'node_modules',
             __dirname + '/web/static/js'
-        ]
+        ],
+        extensions: ['', '.scss', '.css', '.js', '.elm']
     }
 }

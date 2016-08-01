@@ -1,4 +1,6 @@
 import 'phoenix_html';
 import {Socket} from 'phoenix';
 
-console.log('hello, world!');
+const Elm = require('../../elm/Main');
+
+Elm.Main.embed(document.getElementById('elm-main'));
