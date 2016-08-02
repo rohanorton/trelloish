@@ -1,11 +1,13 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const elmSource = __dirname + '/web/elm';
+const bourbon = require("bourbon");
+const neat = require("bourbon-neat");
 
 module.exports = {
     entry: [
         './web/static/css/app.scss',
         './web/static/js/app.js',
-        './web/elm/Main.elm',
+        './web/elm/Main.elm'
     ],
     output: {
         path: './priv/static/',
@@ -29,8 +31,7 @@ module.exports = {
                 loader: ExtractTextPlugin.extract('style', 'css')
             }, {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style',
-                    'css!sass?includePaths[]=' + __dirname + '/node_modules')
+                loaders: ['style', 'css', 'sass']
             }, {
                 test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'
             }, {
@@ -46,6 +47,11 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('css/app.css')
     ],
+    sassLoader: {
+        includePaths: []
+            .concat(bourbon.includePaths)
+            .concat(neat.includePaths)
+    },
     resolve: {
         modulesDirectories: [
             'node_modules',
@@ -53,4 +59,4 @@ module.exports = {
         ],
         extensions: ['', '.scss', '.css', '.js', '.elm']
     }
-}
+};

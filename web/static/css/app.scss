@@ -1,9 +1,15 @@
-$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
-@import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import "bourbon";
+@import "neat";
 
 
-body {
-    p {
-        color: red;
-    }
+section {
+  @include outer-container;
+  header {
+      @include span-columns(3);
+      @include background(linear-gradient(red, green) left repeat, radial-gradient(red, orange));
+      color: white;
+  }
+  section {
+      @include span-columns(9);
+  }
 }
