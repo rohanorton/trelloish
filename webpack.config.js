@@ -57,6 +57,9 @@ module.exports = {
             'node_modules',
             __dirname + '/web/static/js'
         ],
+        alias: {
+            elm: __dirname + '/web/elm'
+        },
         extensions: ['', '.scss', '.css', '.js', '.elm']
     }
 };
