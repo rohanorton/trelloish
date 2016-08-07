@@ -23,6 +23,7 @@ urlParser : Navigation.Location -> Result String Route
 urlParser location =
     location.pathname
         |> String.dropLeft 1
+        |> String.toLower
         |> parse identity matchers
 
 
