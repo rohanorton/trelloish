@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (text, div, Html)
+import Html exposing (button, p, text, div, Html)
 import Routing exposing (Route(..))
 import Navigation
 
@@ -58,14 +58,14 @@ urlUpdate result model =
 
 
 type Msg
-    = NoOp
+    = ChangeRoute Routing.Route
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            model ! []
+        ChangeRoute route ->
+            { model | route = route } ! [ Navigation.newUrl <| Routing.pageToURL route ]
 
 
 
@@ -96,18 +96,40 @@ page model =
         LoginRoute ->
             loginView
 
+        MyNumberRoute int ->
+            numberRoute int
+
         NotFoundRoute ->
             notFoundView
 
 
-homeView : Html msg
+homeView : Html Msg
 homeView =
-    text "Hello, from Home :D"
+    div []
+        [ p [] [ text "Hello, from Home :D" ]
+        , button (Routing.pageLink ChangeRoute LoginRoute) [ text "Login" ]
+        ]
 
 
-loginView : Html msg
+loginView : Html Msg
 loginView =
-    text "You're trying to login. It won't work D:"
+    div []
+        [ p [] [ text "You're trying to login. It won't work D:" ]
+        , button (Routing.pageLink ChangeRoute HomeRoute) [ text "Go Home" ]
+        ]
+
+
+numberRoute : Int -> Html Msg
+numberRoute int =
+    let
+        nextPage =
+            MyNumberRoute <| int + 1
+    in
+        div []
+            [ text <| "You are currently on page " ++ toString int
+            , button (Routing.pageLink ChangeRoute nextPage) [ text "Next" ]
+            , button (Routing.pageLink ChangeRoute HomeRoute) [ text "Go Home" ]
+            ]
 
 
 notFoundView : Html msg
