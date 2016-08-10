@@ -5,7 +5,7 @@ const neat = require("bourbon-neat");
 
 module.exports = {
     entry: [
-        './web/static/css/app.scss',
+        './web/styles/app.scss',
         './web/static/js/app.js',
         './web/elm/Main.elm'
     ],
